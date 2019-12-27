@@ -16,6 +16,11 @@ const routes = [
     name: 'about',
     component: About,
   },
+  {
+    path: '/labwork_1',
+    name: 'labWorkOne',
+    component: () => import(/* webpackChunkName: "lab1" */ '../views/LabWorkOne.vue'),
+  },
 ];
 
 const router = new VueRouter({
