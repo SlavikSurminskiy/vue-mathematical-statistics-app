@@ -4,7 +4,7 @@
   <v-row>
     <v-col cols="4">
       <v-text-field
-        v-model="inputsCount"
+        v-model.number="inputsCount"
         label="Обсяг вибірки"
         type="number" min="1"
       ></v-text-field>
@@ -28,6 +28,7 @@
         </v-btn>
         <v-btn
           fab dark small color="indigo" class="mx-2"
+          :disabled="inputsCount < 1"
           @click="deleteInput()"
         >
           <v-icon dark>mdi-minus</v-icon>
@@ -38,7 +39,14 @@
   <v-row>
     <template v-for="(item, index) in inputData">
       <v-col cols="3" :key="index">
-        <v-text-field :label="`${index + 1})`" type="number"></v-text-field>
+        <v-text-field
+          :rules="[validData[index] || 'Заповніть поле']"
+          @change="saveValue(index, $event)"
+          :label="`${index + 1})`"
+          :value="item"
+          type="number"
+        >
+        </v-text-field>
       </v-col>
     </template>
   </v-row>
@@ -54,6 +62,7 @@ import {
   CREATE_INPUTS,
   ADD_INPUT,
   DELETE_INPUT,
+  SAVE_VALUE,
 } from '../store/mutation-types';
 
 export default {
@@ -65,6 +74,7 @@ export default {
   computed: {
     ...mapState({
       inputData: state => state.lab1.inputData,
+      validData: state => state.lab1.validData,
     }),
     inputsCount: {
       get() {
@@ -85,6 +95,9 @@ export default {
     },
     deleteInput() {
       this.$store.commit(DELETE_INPUT);
+    },
+    saveValue(index, value) {
+      this.$store.commit(SAVE_VALUE, { index, value });
     },
   },
 };
