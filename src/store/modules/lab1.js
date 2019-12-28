@@ -6,6 +6,7 @@ import {
   ADD_INPUT,
   DELETE_INPUT,
   SAVE_VALUE,
+  MAKE_CALCULATION,
 } from '../mutation-types';
 
 export default {
@@ -13,6 +14,7 @@ export default {
     inputsCount: 0,
     inputData: [],
     validData: [],
+    frequency: {},
   },
   mutations: {
     [SET_INPUTS_COUNT](state, payload) {
@@ -50,10 +52,42 @@ export default {
         Vue.set(state.inputData, index, '');
       }
     },
+    [MAKE_CALCULATION](state) {
+      state.frequency = {};
+      state.inputData.forEach((element) => {
+        if (Object.prototype.hasOwnProperty.call(state.frequency, element)) {
+          state.frequency[element] += 1;
+        } else {
+          state.frequency[element] = 1;
+        }
+      });
+    },
   },
   getters: {
     inputsCount(state) {
       return state.inputsCount;
+    },
+    isDataValid(state) {
+      return !state.validData.includes(false) && state.validData.length;
+    },
+    sortedFrequency(state) {
+      const frequencySorted = Object.keys(state.frequency)
+        .map(val => +val)
+        .sort((a, b) => a - b);
+      const appropriateValues = [];
+      frequencySorted.forEach((frequency) => {
+        appropriateValues.push(state.frequency[frequency]);
+      });
+      return { frequencySorted, appropriateValues };
+    },
+    numbersAmount(state) {
+      return Object.values(state.frequency)
+        .reduce((acc, value) => acc + value, 0);
+    },
+    relativeFrequencySum(state, getters) {
+      return Object.values(state.frequency)
+        .reduce((acc, value) => acc + value / getters.numbersAmount, 0)
+        .toFixed(4);
     },
   },
 };
