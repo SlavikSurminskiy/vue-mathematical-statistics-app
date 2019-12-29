@@ -118,5 +118,17 @@ export default {
       });
       return modalValues;
     },
+    medianValue(state) {
+      const inputDataSorted = state.inputData.sort((a, b) => a - b);
+      const index = Math.floor(inputDataSorted.length / 2);
+      let median = '';
+      // check is odd or even
+      if (inputDataSorted.length & 1) { // eslint-disable-line no-bitwise
+        median = inputDataSorted[index];
+      } else {
+        median = (inputDataSorted[index] + inputDataSorted[index - 1]) / 2;
+      }
+      return median;
+    },
   },
 };

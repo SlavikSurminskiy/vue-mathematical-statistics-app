@@ -103,6 +103,14 @@
         </p>
       </v-col>
     </v-row>
+    <h2>Медіана</h2>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Медіана ряду: М<sub>e</sub>(x) = {{medianValue}}
+        </p>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -139,6 +147,7 @@ export default {
       'relativeFrequencySum',
       'range',
       'modalValues',
+      'medianValue',
     ]),
     inputsCount: {
       get() {
