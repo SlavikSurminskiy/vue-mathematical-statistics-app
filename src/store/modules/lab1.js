@@ -103,5 +103,20 @@ export default {
         min, max, range, rangeStr,
       };
     },
+    modalValues(state) {
+      let modalValues = [];
+      let freq = -Infinity;
+      Object.entries(state.frequency).forEach((property) => {
+        const [number, numberFreq] = property;
+        if (numberFreq > freq) {
+          modalValues = [];
+          freq = numberFreq;
+          modalValues.push({ number, numberFreq });
+        } else if (numberFreq === freq) {
+          modalValues.push({ number, numberFreq });
+        }
+      });
+      return modalValues;
+    },
   },
 };

@@ -88,6 +88,21 @@
         <p>Розмах вибірки: r = {{range.rangeStr}}</p>
       </v-col>
     </v-row>
+    <h2>Мода</h2>
+    <v-row>
+      <v-col cols="12">
+        <p v-for="(value, ind) in modalValues" :key="ind">
+          Мода ряду: М<sub>0</sub>(x) = {{value.number}},
+          оскiльки цьому значенню вiдповiдає найбiльша частота {{value.numberFreq}}
+        </p>
+        <p v-if="modalValues.length > 1">
+          Такий статистичний ряд є мультимодальний
+        </p>
+        <p v-else>
+          Такий статистичний ряд є одномодальний
+        </p>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -123,6 +138,7 @@ export default {
       'numbersAmount',
       'relativeFrequencySum',
       'range',
+      'modalValues',
     ]),
     inputsCount: {
       get() {
@@ -147,6 +163,7 @@ export default {
       this.$store.commit(DELETE_INPUT);
     },
     saveValue(index, value) {
+      this.showResult = false;
       this.$store.commit(SAVE_VALUE, { index, value });
     },
     makeCalculation() {
