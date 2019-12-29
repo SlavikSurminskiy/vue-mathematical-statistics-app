@@ -111,6 +111,12 @@
         </p>
       </v-col>
     </v-row>
+    <h2>Поліном частот зображений на рис.</h2>
+    <v-row>
+      <v-col cols="7">
+          <frequency-chart :chart-data="frequencyDataCollection"></frequency-chart>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -128,11 +134,17 @@ import {
   MAKE_CALCULATION,
 } from '../store/mutation-types';
 
+import frequencyChart from '@/components/chart/LineChart.vue';
+
 export default {
+  components: {
+    frequencyChart,
+  },
   data() {
     return {
       showControls: false,
       showResult: false,
+      frequencyDataCollection: {},
     };
   },
   computed: {
@@ -156,6 +168,21 @@ export default {
       set(value) {
         this.$store.commit(SET_INPUTS_COUNT, value);
       },
+    },
+  },
+  watch: {
+    sortedFrequency() {
+      this.frequencyDataCollection = {
+        labels: this.sortedFrequency.frequencySorted,
+        datasets: [{
+          label: 'частота',
+          data: this.sortedFrequency.appropriateValues,
+          fill: false,
+          borderColor: '#3f51b5',
+          borderWidth: 3,
+          lineTension: 0,
+        }],
+      };
     },
   },
   methods: {
