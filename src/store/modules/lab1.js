@@ -89,5 +89,19 @@ export default {
         .reduce((acc, value) => acc + value / getters.numbersAmount, 0)
         .toFixed(4);
     },
+    range(state) {
+      const max = Math.max(...state.inputData);
+      const min = Math.min(...state.inputData);
+      const range = max - min;
+      let rangeStr = '';
+      if (min < 0) {
+        rangeStr = `${max} - (${min}) = ${range}`;
+      } else {
+        rangeStr = `${max} - ${min} = ${range}`;
+      }
+      return {
+        min, max, range, rangeStr,
+      };
+    },
   },
 };

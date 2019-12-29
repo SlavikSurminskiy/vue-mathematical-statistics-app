@@ -82,6 +82,12 @@
         </div>
       </v-col>
     </v-row>
+    <h2>Розмах вибірки</h2>
+    <v-row>
+      <v-col cols="12">
+        <p>Розмах вибірки: r = {{range.rangeStr}}</p>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -116,6 +122,7 @@ export default {
       'sortedFrequency',
       'numbersAmount',
       'relativeFrequencySum',
+      'range',
     ]),
     inputsCount: {
       get() {
