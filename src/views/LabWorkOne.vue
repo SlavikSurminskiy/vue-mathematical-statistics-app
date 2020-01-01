@@ -117,6 +117,33 @@
           <frequency-chart :chart-data="frequencyDataCollection"></frequency-chart>
       </v-col>
     </v-row>
+    <h2>Iнтервальний статистичний ряд</h2>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Для визначення оптимальної кiлькостi <b><i>S</i></b> промiжкiв,
+          за якої iнтервальний статистичний ряд не буде занадто громiздким,
+          зберiгаючи при цьому особливостi генеральної сукупностi,
+          за <b><i>S</i></b> виберемо цiле число, близьке до <b>1 + 3.2 lg(<i>n</i>)</b>,
+          <br>де <i>n</i> — обсяг вибірки
+        </p>
+        <p><b><i>S</i> &#8776; {{frequencyIntervals.length}}</b></p>
+        <div class="range-table">
+          <table class="table">
+            <tr>
+              <th>&#916;<sub>j</sub></th>
+              <td v-for="(value, index) in frequencyIntervals"
+                  :key="`range-key-${index}`">{{value['rangeStr']}}</td>
+            </tr>
+            <tr>
+              <th>n<sub>j</sub></th>
+              <td v-for="(value, index) in frequencyIntervals"
+                  :key="`range-freq-key-${index}`">{{value['rangeFreq']}}</td>
+            </tr>
+          </table>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -160,6 +187,7 @@ export default {
       'range',
       'modalValues',
       'medianValue',
+      'frequencyIntervals',
     ]),
     inputsCount: {
       get() {
@@ -214,11 +242,13 @@ export default {
   $fs-base: 16px;
   $fs-large: 20px;
 
-  .frequency-table {
+  .frequency-table,
+  .range-table {
     overflow-x: auto;
   }
   .table {
     width: 100%;
+    white-space: nowrap;
     border-collapse: collapse;
     font-size: $fs-base;
     th,td {

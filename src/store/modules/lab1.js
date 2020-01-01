@@ -130,5 +130,49 @@ export default {
       }
       return median;
     },
+    frequencyIntervals(state, getters) {
+      const ranges = [];
+      const rangesAmount = Math.round(1 + 3.2 * Math.log10(getters.numbersAmount));
+      const rangeLength = +(getters.range.range / rangesAmount).toFixed(3);
+      const endRange = getters.range.max;
+      const frequencyEntries = Object.entries(state.frequency);
+
+      let barStartRange = getters.range.min;
+      let barEndRange = +(barStartRange + rangeLength).toFixed(3);
+
+      function calcFreqSumInRange(entries, rangeStart, rangeEnd) {
+        return entries.filter(item => item[0] >= rangeStart && item[0] < rangeEnd)
+          .reduce((acc, val) => acc + val[1], 0);
+      }
+
+      for (let i = 0; i < rangesAmount; i += 1) {
+        const range = {};
+        let sumFreqInRange = '';
+
+        if (i === rangesAmount - 1) {
+          sumFreqInRange = calcFreqSumInRange(frequencyEntries, barStartRange, Infinity);
+          range.rangeStr = `[ ${barStartRange}; ${endRange} ]`;
+          range.rangeEnd = endRange;
+        } else {
+          sumFreqInRange = calcFreqSumInRange(frequencyEntries, barStartRange, barEndRange);
+          range.rangeStr = `[ ${barStartRange}; ${barEndRange} )`;
+          range.rangeEnd = barEndRange;
+        }
+
+        Object.assign(range, {
+          rangeStart: barStartRange,
+          rangeFreq: sumFreqInRange,
+          rangeFreqScaled: +(sumFreqInRange / rangeLength).toFixed(3),
+          rangeRelativeFreq: +(sumFreqInRange / rangeLength / getters.numbersAmount).toFixed(3),
+        });
+
+        ranges.push(range);
+
+        barStartRange = barEndRange;
+        barEndRange = +(barStartRange + rangeLength).toFixed(3);
+      }
+
+      return ranges;
+    },
   },
 };
