@@ -21,6 +21,7 @@ export default {
             ticks: {
               fontSize: 18,
             },
+            offset: true,
           }],
         },
         legend: {
