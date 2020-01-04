@@ -174,5 +174,26 @@ export default {
 
       return ranges;
     },
+    modalIntervals(state, getters) {
+      const ranges = getters.frequencyIntervals.map(item => [item.rangeStr, item.rangeFreqScaled]);
+      let modalIntervals = [];
+      let freq = -Infinity;
+      let interval;
+
+      ranges.forEach((item) => {
+        const [range, rangeFreq] = item;
+        if (rangeFreq > freq) {
+          modalIntervals = [];
+          freq = rangeFreq;
+          interval = range;
+          modalIntervals.push({ interval, freq });
+        } else if (rangeFreq === freq) {
+          interval = range;
+          modalIntervals.push({ interval, freq });
+        }
+      });
+
+      return modalIntervals;
+    },
   },
 };

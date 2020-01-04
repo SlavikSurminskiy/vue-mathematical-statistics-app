@@ -152,6 +152,21 @@
         <frequency-bar :chart-data="frequencyIntervalsDataCollection"></frequency-bar>
       </v-col>
     </v-row>
+    <h2>Модальний інтервал</h2>
+    <v-row>
+      <v-col cols="12">
+        <p v-for="(interval, index) in modalIntervals" :key="index">
+          Модальним iнтервалом для iнтервального статистичного ряду є {{interval.interval}},
+          оскiльки йому вiдповiдає найбiльша щiльнiсть частоти {{interval.freq}}
+        </p>
+        <p v-if="modalIntervals.length > 1">
+          Такий інтервальний статистичний ряд є мультимодальний
+        </p>
+        <p v-else>
+          Такий інтервальний статистичний ряд є одномодальний
+        </p>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -199,6 +214,7 @@ export default {
       'modalValues',
       'medianValue',
       'frequencyIntervals',
+      'modalIntervals',
     ]),
     inputsCount: {
       get() {
