@@ -144,6 +144,14 @@
         </div>
       </v-col>
     </v-row>
+    <h2>Гістограми частот зображені на рис.</h2>
+    <v-row>
+      <v-col cols="7">
+        <p>Загальна площа гістограми "щільність частоти" дорівнює обсягові вибірки</p>
+        <p>Загальна площа гістограми "відносна частота" дорівнює одиниці</p>
+        <frequency-bar :chart-data="frequencyIntervalsDataCollection"></frequency-bar>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -162,16 +170,19 @@ import {
 } from '../store/mutation-types';
 
 import frequencyChart from '@/components/chart/LineChart.vue';
+import frequencyBar from '@/components/chart/BarChart.vue';
 
 export default {
   components: {
     frequencyChart,
+    frequencyBar,
   },
   data() {
     return {
       showControls: false,
       showResult: false,
       frequencyDataCollection: {},
+      frequencyIntervalsDataCollection: {},
     };
   },
   computed: {
@@ -210,6 +221,29 @@ export default {
           borderWidth: 3,
           lineTension: 0,
         }],
+      };
+      this.frequencyIntervalsDataCollection = {
+        labels: this.frequencyIntervals.map(item => item.rangeStr),
+        datasets: [
+          {
+            label: 'щільність частоти',
+            data: this.frequencyIntervals.map(item => item.rangeFreqScaled),
+            backgroundColor: 'rgba(63, 81, 181, 0.8)',
+            borderWidth: 1,
+            borderColor: '#3F51B5',
+            categoryPercentage: 1, // set gap between bars to zero
+            barPercentage: 1, // set gap between bars to zero
+          },
+          {
+            label: 'відносна частота',
+            data: this.frequencyIntervals.map(item => item.rangeRelativeFreq),
+            backgroundColor: 'rgba(236, 64, 122, 0.8)',
+            borderWidth: 1,
+            borderColor: '#ec407a',
+            categoryPercentage: 1,
+            barPercentage: 1,
+          },
+        ],
       };
     },
   },
