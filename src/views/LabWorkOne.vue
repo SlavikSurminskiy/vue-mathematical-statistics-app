@@ -167,6 +167,44 @@
         </p>
       </v-col>
     </v-row>
+    <h2>Медіана інтервального ряду</h2>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Для визначення медiани для iнтервального статистичного ряду встановимо медiанний iнтервал,
+          тобто той частинний iнтервал [ Z<sub>M-1</sub>; Z<sub>M</sub> ),
+          лiворуч i праворуч вiд якого знаходиться не бiльше нiж половина елементiв вибiрки,
+          враховуючи їх частоти.
+        </p>
+        <p>
+          За медiану можна наближено взяти середину медiанного iнтервалу.
+          Положення медiани можна уточнити, якщо:
+          <br>[ Z<sub>M-1</sub>; Z<sub>M</sub> ) — медіанний інтервал,
+          <br>n<sub>M</sub> — частота, що йому вiдповiдає,
+          <br>m<sub>M-1</sub> — накопичена частота попередніх iнтервалів,
+          <br>n — обсяг вибірки, то медіану розраховують за наступною формулою
+        </p><br><hr><br>
+        <mathjax-median-formula
+          a="z_{M-1}" b="z_M"
+          c="n_M" d="n"
+          f="m_{M-1}"
+        ></mathjax-median-formula><br><hr><br>
+        <ul>
+          <li>{{medianInterval.interval.rangeStr}} — медіанний інтервал</li>
+          <li>n<sub>M</sub> = {{medianInterval.interval.rangeFreq}}</li>
+          <li>m<sub>M-1</sub> = {{medianIntervalValue.accumulateLeftSum}}</li>
+          <li>n = {{numbersAmount}}</li>
+        </ul>
+        <mathjax-median-formula
+          :a="medianIntervalValue.rangeStart"
+          :b="medianIntervalValue.rangeEnd"
+          :c="medianIntervalValue.rangeFreq"
+          :d="numbersAmount"
+          :f="medianIntervalValue.accumulateLeftSum"
+          :g="medianIntervalValue.medianValue"
+        ></mathjax-median-formula>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -187,10 +225,13 @@ import {
 import frequencyChart from '@/components/chart/LineChart.vue';
 import frequencyBar from '@/components/chart/BarChart.vue';
 
+import mathjaxMedianFormula from '@/components/mathjaxFormulas/MedianFormula.vue';
+
 export default {
   components: {
     frequencyChart,
     frequencyBar,
+    mathjaxMedianFormula,
   },
   data() {
     return {
@@ -215,6 +256,8 @@ export default {
       'medianValue',
       'frequencyIntervals',
       'modalIntervals',
+      'medianInterval',
+      'medianIntervalValue',
     ]),
     inputsCount: {
       get() {

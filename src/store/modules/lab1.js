@@ -195,5 +195,47 @@ export default {
 
       return modalIntervals;
     },
+    medianInterval(state, getters) {
+      const { numbersAmount, frequencyIntervals } = getters;
+      const halfNumbersAmount = numbersAmount / 2;
+      const freqInRanges = frequencyIntervals.map(item => item.rangeFreq);
+      let sumPreviewsRanges = 0;
+      let sumNextRanges = 0;
+      let medianIntervalIndex;
+
+      for (let i = 0; i < freqInRanges.length; i += 1) {
+        sumPreviewsRanges = freqInRanges.slice(0, i).reduce((acc, val) => acc + val, 0);
+        sumNextRanges = freqInRanges.slice(i + 1).reduce((acc, val) => acc + val, 0);
+        if (sumPreviewsRanges <= halfNumbersAmount && sumNextRanges <= halfNumbersAmount) {
+          medianIntervalIndex = i;
+        }
+      }
+
+      const interval = frequencyIntervals[medianIntervalIndex];
+
+      return { interval, medianIntervalIndex };
+    },
+    medianIntervalValue(state, getters) {
+      const { medianInterval, numbersAmount, frequencyIntervals } = getters;
+      const halfNumbersAmount = numbersAmount / 2;
+      const { medianIntervalIndex, interval: { rangeStart, rangeEnd, rangeFreq } } = medianInterval;
+
+      const accumulateLeftSum = frequencyIntervals
+        .slice(0, medianIntervalIndex)
+        .map(item => item.rangeFreq)
+        .reduce((acc, val) => acc + val, 0);
+
+      const expressionPartA = (rangeEnd - rangeStart) / rangeFreq;
+      const expressionPartB = halfNumbersAmount - accumulateLeftSum;
+      const medianValue = +(expressionPartA * expressionPartB + rangeStart).toFixed(3);
+
+      return {
+        medianValue,
+        rangeStart,
+        rangeEnd,
+        rangeFreq,
+        accumulateLeftSum,
+      };
+    },
   },
 };
