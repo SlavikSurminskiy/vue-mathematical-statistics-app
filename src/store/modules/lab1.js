@@ -237,5 +237,40 @@ export default {
         accumulateLeftSum,
       };
     },
+    discreteCumulativeDistribution(state, getters) {
+      const { frequencyIntervals, numbersAmount } = getters;
+      const cumulativeFreq = [];
+
+      // calc arithmetic mean of each interval
+      const chartLabels = frequencyIntervals.map((item) => {
+        const label = +((item.rangeStart + item.rangeEnd) / 2).toFixed(3);
+        return label;
+      });
+
+      frequencyIntervals.reduce((acc, interval) => {
+        const { rangeFreq } = interval;
+        const result = +((acc + rangeFreq) / numbersAmount).toFixed(3);
+        cumulativeFreq.push(result);
+        return acc + rangeFreq;
+      }, 0);
+
+      chartLabels.unshift('-Infinity');
+      chartLabels.push('+Infinity');
+
+      cumulativeFreq.unshift('0');
+      cumulativeFreq.push('1');
+
+      const radius = 10;
+      const pointsRadius = [];
+      pointsRadius.push(0); // set radius for first point which is '-Infinity'
+
+      for (let i = 0; i < chartLabels.length - 2; i += 1) {
+        pointsRadius.push(radius);
+      }
+
+      pointsRadius.push(0); // set radius for last point which is '+Infinity'
+
+      return { chartLabels, cumulativeFreq, pointsRadius };
+    },
   },
 };
