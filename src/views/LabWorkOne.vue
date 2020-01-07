@@ -213,6 +213,14 @@
           ></discrete-cumulative-distribution-chart>
       </v-col>
     </v-row>
+    <h2>Емпiрична функцiя розподiлу для інтервального ряду</h2>
+    <v-row>
+      <v-col cols="7">
+        <cumulative-distribution-chart
+          :chart-data="сumulativeDataCollection"
+        ></cumulative-distribution-chart>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -233,6 +241,7 @@ import {
 import frequencyChart from '@/components/chart/LineChart.vue';
 import frequencyBar from '@/components/chart/BarChart.vue';
 import discreteCumulativeDistributionChart from '@/components/chart/DiscreteCumulativeDistributionChart.vue';
+import cumulativeDistributionChart from '@/components/chart/CumulativeDistributionChart.vue';
 
 import mathjaxMedianFormula from '@/components/mathjaxFormulas/MedianFormula.vue';
 
@@ -241,6 +250,7 @@ export default {
     frequencyChart,
     frequencyBar,
     discreteCumulativeDistributionChart,
+    cumulativeDistributionChart,
     mathjaxMedianFormula,
   },
   data() {
@@ -250,6 +260,7 @@ export default {
       frequencyDataCollection: {},
       frequencyIntervalsDataCollection: {},
       discreteCumulativeDataCollection: {},
+      сumulativeDataCollection: {},
     };
   },
   computed: {
@@ -270,6 +281,7 @@ export default {
       'medianInterval',
       'medianIntervalValue',
       'discreteCumulativeDistribution',
+      'cumulativeDistribution',
     ]),
     inputsCount: {
       get() {
@@ -331,6 +343,16 @@ export default {
           radius: this.discreteCumulativeDistribution.pointsRadius,
           hoverRadius: 10,
           rotation: 30,
+        }],
+      };
+      this.сumulativeDataCollection = {
+        datasets: [{
+          label: 'F*(x)',
+          data: this.cumulativeDistribution,
+          fill: false,
+          borderColor: '#3F51B5',
+          borderWidth: 3,
+          lineTension: 0,
         }],
       };
     },

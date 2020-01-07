@@ -272,5 +272,29 @@ export default {
 
       return { chartLabels, cumulativeFreq, pointsRadius };
     },
+    cumulativeDistribution(state, getters) {
+      const { frequencyIntervals, numbersAmount } = getters;
+      const cumulativeFreq = [];
+
+      frequencyIntervals.reduce((acc, interval) => {
+        const { rangeFreq } = interval;
+        const x = interval.rangeEnd;
+        const y = +((acc + rangeFreq) / numbersAmount).toFixed(3);
+        cumulativeFreq.push({ x, y });
+        return acc + rangeFreq;
+      }, 0);
+
+      // add extra items to start and to end of array
+      // to emulate that chart line is drawing to '-infinity' and 'infinity'
+      const firstFreq = frequencyIntervals[0].rangeStart;
+      const lastFreq = frequencyIntervals[frequencyIntervals.length - 1].rangeEnd;
+      const dx = 5;
+      cumulativeFreq.unshift(
+        { x: firstFreq - dx, y: 0 },
+        { x: firstFreq, y: 0 },
+      );
+      cumulativeFreq.push({ x: lastFreq + dx, y: 1 });
+      return cumulativeFreq;
+    },
   },
 };
