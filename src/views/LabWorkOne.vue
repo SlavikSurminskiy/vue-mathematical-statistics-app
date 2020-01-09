@@ -183,12 +183,8 @@
           <br>n<sub>M</sub> — частота, що йому вiдповiдає,
           <br>m<sub>M-1</sub> — накопичена частота попередніх iнтервалів,
           <br>n — обсяг вибірки, то медіану розраховують за наступною формулою
-        </p><br><hr><br>
-        <mathjax-median-formula
-          a="z_{M-1}" b="z_M"
-          c="n_M" d="n"
-          f="m_{M-1}"
-        ></mathjax-median-formula><br><hr><br>
+        </p>
+        <mathjax-median-formula></mathjax-median-formula>
         <ul>
           <li>{{medianInterval.interval.rangeStr}} — медіанний інтервал</li>
           <li>n<sub>M</sub> = {{medianInterval.interval.rangeFreq}}</li>
@@ -196,6 +192,7 @@
           <li>n = {{numbersAmount}}</li>
         </ul>
         <mathjax-median-formula
+          :hasBorder="false"
           :a="medianIntervalValue.rangeStart"
           :b="medianIntervalValue.rangeEnd"
           :c="medianIntervalValue.rangeFreq"
@@ -402,6 +399,14 @@ export default {
     th {
       font-size: $fs-large;
       font-weight: bold;
+    }
+  }
+  .mathjax-formula {
+    margin: 20px 0;
+    padding: 20px 0;
+    &--bordered {
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
   }
 </style>
