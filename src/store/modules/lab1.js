@@ -254,17 +254,11 @@ export default {
         return acc + rangeFreq;
       }, 0);
 
-      chartLabels.unshift('-Infinity');
-      chartLabels.push('+Infinity');
-
-      cumulativeFreq.unshift('0');
-      cumulativeFreq.push('1');
-
       const radius = 10;
       const pointsRadius = [];
       pointsRadius.push(0); // set radius for first point which is '-Infinity'
 
-      for (let i = 0; i < chartLabels.length - 2; i += 1) {
+      for (let i = 0; i < chartLabels.length; i += 1) {
         pointsRadius.push(radius);
       }
 
@@ -295,6 +289,46 @@ export default {
       );
       cumulativeFreq.push({ x: lastFreq + dx, y: 1 });
       return cumulativeFreq;
+    },
+    sampleMean(state, getters) {
+      const {
+        discreteCumulativeDistribution,
+        frequencyIntervals,
+        sortedFrequency,
+        numbersAmount,
+      } = getters;
+      const { frequencySorted, appropriateValues } = sortedFrequency;
+      const { chartLabels } = discreteCumulativeDistribution;
+
+      let value = 0;
+      let accumulateStr = '';
+      frequencySorted.forEach((number, ind) => {
+        const result = number * appropriateValues[ind];
+        value += result;
+        if (ind === 0) {
+          accumulateStr += `${result}`;
+        } else {
+          accumulateStr += ` + ${result}`;
+        }
+      });
+      value = +(value / numbersAmount).toFixed(3);
+
+      let intervalValue = 0;
+      let intervalAccumulateStr = '';
+      chartLabels.forEach((range, ind) => {
+        const result = range * frequencyIntervals[ind].rangeFreq;
+        intervalValue += result;
+        if (ind === 0) {
+          intervalAccumulateStr += `${result}`;
+        } else {
+          intervalAccumulateStr += ` + ${result}`;
+        }
+      });
+      intervalValue = +(intervalValue / numbersAmount).toFixed(3);
+
+      return {
+        value, accumulateStr, intervalValue, intervalAccumulateStr,
+      };
     },
   },
 };

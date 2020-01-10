@@ -218,6 +218,51 @@
         ></cumulative-distribution-chart>
       </v-col>
     </v-row>
+    <h2>Вибiркове середнє значення</h2>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Вибiрковим середнiм значенням <vue-mathjax :formula="'$ \\bar{x}_B $'"></vue-mathjax>
+          дискретного статистичного ряду називають середнє арифметичне
+          варiант <b>х<sub>і</sub></b> iз врахуванням їх частот.
+        </p>
+        <mathjax-sample-mean-formula></mathjax-sample-mean-formula>
+        <mathjax-sample-mean-formula
+          :hasBorder="false"
+          :a="numbersAmount"
+          :b="sampleMean.accumulateStr"
+          :c="sampleMean.value"
+        ></mathjax-sample-mean-formula>
+        <p>
+          Для знаходження вибiркового середнього значення
+          <vue-mathjax :formula="'$ \\bar{x}_B $'"></vue-mathjax>
+          iнтервального статистичного ряду побудуємо спочатку
+          вiдповiдний дискретний статистичний ряд
+        </p>
+        <div class="frequency-table">
+          <table class="table">
+            <tr>
+              <th>x<sub>i</sub></th>
+              <td v-for="(value, name, ind) in discreteCumulativeDistribution.chartLabels"
+                  :key="ind">{{value}}</td>
+            </tr>
+            <tr>
+              <th>n<sub>i</sub></th>
+              <td v-for="(interval, name, ind) in frequencyIntervals"
+                  :key="ind">{{interval.rangeFreq}}</td>
+            </tr>
+          </table>
+        </div>
+        <br>
+        <p>Тоді</p>
+        <mathjax-sample-mean-formula
+          :hasBorder="false"
+          :a="numbersAmount"
+          :b="sampleMean.intervalAccumulateStr"
+          :c="sampleMean.intervalValue"
+        ></mathjax-sample-mean-formula>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -241,6 +286,7 @@ import discreteCumulativeDistributionChart from '@/components/chart/DiscreteCumu
 import cumulativeDistributionChart from '@/components/chart/CumulativeDistributionChart.vue';
 
 import mathjaxMedianFormula from '@/components/mathjaxFormulas/MedianFormula.vue';
+import mathjaxSampleMeanFormula from '@/components/mathjaxFormulas/SampleMeanFormula.vue';
 
 export default {
   components: {
@@ -249,6 +295,7 @@ export default {
     discreteCumulativeDistributionChart,
     cumulativeDistributionChart,
     mathjaxMedianFormula,
+    mathjaxSampleMeanFormula,
   },
   data() {
     return {
@@ -279,6 +326,7 @@ export default {
       'medianIntervalValue',
       'discreteCumulativeDistribution',
       'cumulativeDistribution',
+      'sampleMean',
     ]),
     inputsCount: {
       get() {
@@ -326,10 +374,10 @@ export default {
         ],
       };
       this.discreteCumulativeDataCollection = {
-        labels: this.discreteCumulativeDistribution.chartLabels,
+        labels: ['-Infinity', ...this.discreteCumulativeDistribution.chartLabels, '+Infinity'],
         datasets: [{
           label: 'F*(x)',
-          data: this.discreteCumulativeDistribution.cumulativeFreq,
+          data: [0, ...this.discreteCumulativeDistribution.cumulativeFreq, 1],
           fill: false,
           borderColor: '#3F51B5',
           borderWidth: 2,
