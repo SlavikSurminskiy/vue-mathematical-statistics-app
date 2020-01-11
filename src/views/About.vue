@@ -1,5 +1,8 @@
 <template>
-  <h1>About component</h1>
+  <div>
+    <h1>About component</h1>
+    <p>Information will be comming soon :)</p>
+  </div>
 </template>
 
 <script>
