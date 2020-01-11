@@ -263,6 +263,44 @@
         ></mathjax-sample-mean-formula>
       </v-col>
     </v-row>
+    <h2>Дисперсія</h2>
+    <v-row>
+      <v-col cols="6">
+        <p>
+          Вибiрковою дисперсiєю <vue-mathjax :formula="'$ {D}_B $'"></vue-mathjax>
+          статистичного ряду називають середнє значення квадратiв вiдхилень
+          його членiв вiд вибiркового середнього значення
+          <vue-mathjax :formula="'$ \\bar{x}_B $'"></vue-mathjax>
+          статистичного ряду
+        </p>
+      </v-col>
+      <v-col cols="6">
+        <p>Для обчислення дисперсiї також можна використовувати іншу формулу згiдно якої</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6">
+        <mathjax-variance-formula formulaTemplate="formulaA"></mathjax-variance-formula>
+      </v-col>
+      <v-col cols="6">
+        <mathjax-variance-formula formulaTemplate="formulaB"></mathjax-variance-formula>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <p>
+          Дисперсiю <vue-mathjax :formula="'$ {D}_B $'"></vue-mathjax>
+          iнтервального статистичного ряду обчислюємо за даними
+          вiдповiдного дискретного ряду Табл. #3
+        </p>
+        <mathjax-variance-formula
+          :hasBorder="false"
+          :a="numbersAmount"
+          :b="variance.accumulateStr"
+          :c="variance.value"
+        ></mathjax-variance-formula>
+      </v-col>
+    </v-row>
   </div>
 </div>
 </template>
@@ -287,6 +325,7 @@ import cumulativeDistributionChart from '@/components/chart/CumulativeDistributi
 
 import mathjaxMedianFormula from '@/components/mathjaxFormulas/MedianFormula.vue';
 import mathjaxSampleMeanFormula from '@/components/mathjaxFormulas/SampleMeanFormula.vue';
+import mathjaxVarianceFormula from '@/components/mathjaxFormulas/VarianceFormula.vue';
 
 export default {
   components: {
@@ -296,6 +335,7 @@ export default {
     cumulativeDistributionChart,
     mathjaxMedianFormula,
     mathjaxSampleMeanFormula,
+    mathjaxVarianceFormula,
   },
   data() {
     return {
@@ -327,6 +367,7 @@ export default {
       'discreteCumulativeDistribution',
       'cumulativeDistribution',
       'sampleMean',
+      'variance',
     ]),
     inputsCount: {
       get() {

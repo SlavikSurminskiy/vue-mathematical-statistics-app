@@ -330,5 +330,33 @@ export default {
         value, accumulateStr, intervalValue, intervalAccumulateStr,
       };
     },
+    variance(state, getters) {
+      const {
+        discreteCumulativeDistribution,
+        frequencyIntervals,
+        sampleMean,
+        numbersAmount,
+      } = getters;
+      const { chartLabels } = discreteCumulativeDistribution;
+      const { intervalValue } = sampleMean;
+
+      let value = 0;
+      let accumulateStr = ''; // will be passed to mathjax component
+      chartLabels.forEach((range, ind) => {
+        const { rangeFreq } = frequencyIntervals[ind];
+        const result = (range ** 2) * rangeFreq;
+        value += result;
+        if (ind === 0) {
+          accumulateStr += `( ${range}^2 * ${rangeFreq}`;
+        } else {
+          accumulateStr += ` + ${range}^2 * ${rangeFreq}`;
+        }
+      });
+      value /= numbersAmount;
+      value = +(value - (intervalValue ** 2)).toFixed(3);
+      accumulateStr += `) - ${intervalValue}^2 `;
+
+      return { value, accumulateStr };
+    },
   },
 };
