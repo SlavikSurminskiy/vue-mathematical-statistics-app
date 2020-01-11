@@ -60,6 +60,7 @@
       <v-col cols="12">
         <div class="frequency-table">
           <table class="table">
+            <caption>Табл. #1</caption>
             <tr>
               <th>x<sub>i</sub></th>
               <td v-for="(value, name, ind) in sortedFrequency.frequencySorted"
@@ -130,6 +131,7 @@
         <p><b><i>S</i> &#8776; {{frequencyIntervals.length}}</b></p>
         <div class="range-table">
           <table class="table">
+            <caption>Табл. #2</caption>
             <tr>
               <th>&#916;<sub>j</sub></th>
               <td v-for="(value, index) in frequencyIntervals"
@@ -241,6 +243,7 @@
         </p>
         <div class="frequency-table">
           <table class="table">
+            <caption>Табл. #3</caption>
             <tr>
               <th>x<sub>i</sub></th>
               <td v-for="(value, name, ind) in discreteCumulativeDistribution.chartLabels"
@@ -481,6 +484,9 @@ export default {
     white-space: nowrap;
     border-collapse: collapse;
     font-size: $fs-base;
+    caption {
+      text-align: left;
+    }
     th,td {
       text-align: center;
       border: 1px solid #dee2e6;
