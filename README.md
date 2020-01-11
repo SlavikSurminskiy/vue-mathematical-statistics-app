@@ -1,5 +1,7 @@
 # tims
 
+[Link to project] (https://vuejs-tims-app.herokuapp.com/)
+
 ## Project setup
 ```
 npm install
