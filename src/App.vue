@@ -42,7 +42,9 @@
     </v-content>
 
     <v-footer color="indigo" app>
-      <span class="white--text">Vyacheslav Surminskiy &copy; 2019</span>
+      <span class="white--text">
+        Vyacheslav Surminskiy &copy; 2019 - {{new Date().getFullYear()}}
+      </span>
     </v-footer>
 
   </v-app>

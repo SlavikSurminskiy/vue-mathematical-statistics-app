@@ -51,9 +51,9 @@ export default {
     },
     formula() {
       if (this.g !== '') {
-        return `$$ \\Large M_e(x) = { ${this.a} + \\frac{${this.b} - ${this.a}}{${this.c}} \\bigg(\\frac{${this.d}}{2} - ${this.f}\\bigg) } = ${this.g}$$`;
+        return `$$ M_e(x) = { ${this.a} + \\frac{${this.b} - ${this.a}}{${this.c}} \\bigg(\\frac{${this.d}}{2} - ${this.f}\\bigg) } = ${this.g}$$`;
       }
-      return `$$ \\Large M_e(x) = { ${this.a} + \\frac{${this.b} - ${this.a}}{${this.c}} \\bigg(\\frac{${this.d}}{2} - ${this.f}\\bigg) }$$`;
+      return `$$ M_e(x) = { ${this.a} + \\frac{${this.b} - ${this.a}}{${this.c}} \\bigg(\\frac{${this.d}}{2} - ${this.f}\\bigg) }$$`;
     },
   },
 };

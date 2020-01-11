@@ -9,7 +9,7 @@
         type="number" min="1"
       ></v-text-field>
     </v-col>
-    <v-col cols="8">
+    <v-col cols="12" sm="8">
       <v-btn
         rounded color="indigo" class="mx-2 white--text"
         @click="createInputs()"
@@ -42,7 +42,7 @@
   </v-row>
   <v-row>
     <template v-for="(item, index) in inputData">
-      <v-col cols="2" :key="index">
+      <v-col cols="3" sm="2" :key="index">
         <v-text-field
           :rules="[validData[index] || 'Заповніть поле']"
           @change="saveValue(index, $event)"
@@ -76,7 +76,7 @@
             <tr>
               <th>w<sub>i</sub></th>
               <td v-for="(value, name, ind) in sortedFrequency.appropriateValues"
-                  :key="ind">{{(value / numbersAmount).toFixed(4)}}</td>
+                  :key="ind">{{+(value / numbersAmount).toFixed(4)}}</td>
               <th>{{relativeFrequencySum}}</th>
             </tr>
           </table>
@@ -114,7 +114,7 @@
     </v-row>
     <h2>Поліном частот зображений на рис.</h2>
     <v-row>
-      <v-col cols="7">
+      <v-col cols="12" sm="10" md="7">
           <frequency-chart :chart-data="frequencyDataCollection"></frequency-chart>
       </v-col>
     </v-row>
@@ -148,7 +148,7 @@
     </v-row>
     <h2>Гістограми частот зображені на рис.</h2>
     <v-row>
-      <v-col cols="7">
+      <v-col cols="12" sm="10" md="7">
         <p>Загальна площа гістограми "щільність частоти" дорівнює обсягові вибірки</p>
         <p>Загальна площа гістограми "відносна частота" дорівнює одиниці</p>
         <frequency-bar :chart-data="frequencyIntervalsDataCollection"></frequency-bar>
@@ -206,7 +206,7 @@
     </v-row>
     <h2>Емпiрична функцiя розподiлу для дискретного ряду</h2>
     <v-row>
-      <v-col cols="7">
+      <v-col cols="12" sm="10" md="7">
           <discrete-cumulative-distribution-chart
             :chart-data="discreteCumulativeDataCollection"
           ></discrete-cumulative-distribution-chart>
@@ -214,7 +214,7 @@
     </v-row>
     <h2>Емпiрична функцiя розподiлу для інтервального ряду</h2>
     <v-row>
-      <v-col cols="7">
+      <v-col cols="12" sm="10" md="7">
         <cumulative-distribution-chart
           :chart-data="сumulativeDataCollection"
         ></cumulative-distribution-chart>
@@ -268,7 +268,7 @@
     </v-row>
     <h2>Дисперсія</h2>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <p>
           Вибiрковою дисперсiєю <vue-mathjax :formula="'$ {D}_B $'"></vue-mathjax>
           статистичного ряду називають середнє значення квадратiв вiдхилень
@@ -277,15 +277,13 @@
           статистичного ряду
         </p>
       </v-col>
-      <v-col cols="6">
-        <p>Для обчислення дисперсiї також можна використовувати іншу формулу згiдно якої</p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="6">
+      <v-col cols="12" md="6" order="0" order-md="1">
         <mathjax-variance-formula formulaTemplate="formulaA"></mathjax-variance-formula>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
+        <p>Для обчислення дисперсiї також можна використовувати іншу формулу згiдно якої</p>
+      </v-col>
+      <v-col cols="12" md="6">
         <mathjax-variance-formula formulaTemplate="formulaB"></mathjax-variance-formula>
       </v-col>
     </v-row>
